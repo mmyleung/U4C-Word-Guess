@@ -1,0 +1,13 @@
+
+#gameContainer {
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#gameContainer div {
+    border-radius: 15%;
+    background-color: papayawhip;
+}
