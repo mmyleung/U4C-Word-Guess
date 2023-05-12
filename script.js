@@ -33,7 +33,7 @@ page.addEventListener("keydown", function(event) {
     //if matches index >= 0, else not present
     let index = secretWordArray.indexOf(key);
     if (index < 0) {
-        alert(`wrong guess ${key}, try again`);
+        // alert(`wrong guess ${key}, try again`);
         return;
     } else {
         //find the corresponding div element and apply text content

@@ -1,3 +1,32 @@
+:root {
+    --accent: #2D232E;
+    --text: #F1F0EA;
+    --light: #E0DDCF;
+    --medium: #534B52;
+    --dark: #474448;
+}
+
+html{
+    background-color: var(--dark);
+}
+
+body{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    color:var(--text);
+}
+
+div {
+    background-color: var(--dark);
+}
+
+header {
+    background-color: var(--accent);
+    text-align: center;
+    padding: 20px;
+}
 
 #gameContainer {
     height: 30vh;
@@ -5,9 +34,36 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: var(--medium);
 }
 
 #gameContainer div {
     border-radius: 15%;
-    background-color: papayawhip;
+    background-color: var(--light);
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    text-align: center;
+    justify-self: center;
+    padding: 25px 0;
+    color: var(--medium );
+    font-weight: bold;
+    font-size: larger;
+}
+
+#textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px
+}
+
+#textContainer div {
+    padding: 15px;
+}
+
+#scores {
+    display: flex;
 }
