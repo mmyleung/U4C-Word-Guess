@@ -60,6 +60,13 @@ function setTimer() {
         }
     },1000)}
 
-setTimer();
-
-
+//target button to start the timer
+var startButton = document.getElementById("startBtn");
+startButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    setTimer();
+    if (startButton.dataset.visibility === "visible") {
+        startButton.style.display = "none";
+        startButton.dataset.visibility = "hidden";
+    }
+})
