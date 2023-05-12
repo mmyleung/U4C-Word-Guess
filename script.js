@@ -42,3 +42,24 @@ page.addEventListener("keydown", function(event) {
 
     console.log(index);
 })
+
+//add timer to the game
+
+//set timer to 30 seconds
+let timer = document.getElementById("timer");
+var time = 30;
+
+function setTimer() {
+    var setTimer = setInterval(function() {
+        time --;
+        timer.textContent = `${time} seconds`;
+        
+
+    if (time === 0) {
+            clearInterval(setTimer);
+        }
+    },1000)}
+
+setTimer();
+
+
