@@ -3,13 +3,14 @@ var secretWord = "anaconda";
 //variable that stores the secret word into an array in lower case eg. ["d","a","p","h","n","e"]
 var secretWordArray = secretWord.toLowerCase().split("");
 
-console.log(secretWordArray);
-
 //display the secret word onto game container
 
 //target the game container
 
 var gameContainer = document.getElementById("gameContainer");
+
+//completedArray that saves the length of the completed letters
+var completedArray = [];
 
 //for loop that dynamically adds elements according to length of word
 
@@ -22,29 +23,37 @@ for (let i = 0; i <secretWordArray.length; i++) {
     gameContainer.appendChild(divElement);
 }
 
-var solvedArray = [];
-//add event listener to game container
+        //store keyed keys in an array
+        var keyed = [];
 
-var textContainer = document.getElementById("textContainer");
-var page = document.querySelector("body");
-page.addEventListener("keydown", function(event) {
-    //store key entered by user
-    var key = event.key;
-    console.log(key);
-    //function to check which indexes match the key
-    var matchingIndexes = getMatchingIndexes (secretWordArray, key);
-    //for loop which adds text content to corresponding div
-    for(let i = 0; i < matchingIndexes.length; i++) {
-        gameContainer.children[matchingIndexes[i]].textContent = key;
-    }
-    if(solvedArray.length === secretWordArray.length) {
-        startButton.style.display = "block";
-        startButton.dataset.visibility = "visible";
-        var winningMessage = document.createElement("p");
-        winningMessage.textContent = `You've won!`
-        textContainer.appendChild(winningMessage);
-    }
-})
+    //add event listener to game container
+    var page = document.querySelector("body");
+    page.addEventListener("keydown", function(event) {
+        //store key entered by user
+        var key = event.key;
+        console.log(key);
+        
+        //Index of function used to check if the new key is already in existing keyed array
+       if (keyed.indexOf(key)!== -1) {
+        alert(`you've already tried this key!`);
+       } else {
+        //push new key into keyed array
+        keyed.push(key);
+                //function to check which indexes match the key
+                var matchingIndexes = getMatchingIndexes (secretWordArray, key);
+                //for loop which adds text content to corresponding div
+                for(let i = 0; i < matchingIndexes.length; i++) {
+                    gameContainer.children[matchingIndexes[i]].textContent = key;
+                    gameContainer.children[matchingIndexes[i]].dataset.completed = true;
+                    console.log(gameContainer.children[matchingIndexes[i]]);
+                    }
+       }
+
+        }
+
+    )
+
+    var textContainer = document.getElementById("textContainer");
 
 //add timer to the game
 
@@ -80,10 +89,25 @@ function getMatchingIndexes (arr, val) {
     for(i = 0; i < arr.length; i++) {
         if(arr[i] === val) {
             indexes.push(i);
-            //array which allows to compare length of solved vs wordarray
-            solvedArray.push(i);
-            console.log(solvedArray);
         }
     }
     return indexes;
+}
+
+
+
+//displayWin function which displays a winning message on the screen and resets start button
+function displayWin() {
+    startButton.style.display = "block";
+    startButton.dataset.visibility = "visible";
+    var winningMessage = document.createElement("p");
+    winningMessage.textContent = `You've won! Click start to reset the game.`
+    textContainer.appendChild(winningMessage);
+}
+
+for (let i = 0; i < secretWordArray.length; i++) {
+    if (gameContainer.children[i].getAttribute("data-completed" === true)) {
+        console.log(`this is completed`)
+        displayWin();
+    }
 }
