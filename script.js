@@ -22,7 +22,6 @@ var keyed = [];
 //function to start game
 
 function startGame() {
-    console.log("Start Game")
 
 //remove existing HTML element in game container
 
@@ -105,7 +104,8 @@ function timer() {
                     startButton.style.display = "block";
                     startButton.dataset.visibility = "visible";
                 }
-                localStorage.setItem("losses", lossScore++);
+                lossScore ++;
+                localStorage.setItem("losses", lossScore);
                 displayScore();
             }
         }
@@ -123,7 +123,7 @@ startButton.addEventListener("click", function(event) {
     startGame();
     displayInstructions();
     time = 30;
-
+    displayScore();
 })
 
 
@@ -138,7 +138,11 @@ function displayWin() {
     completedArray = [];
     keyed = [];
     //add 1 to score in local storage
-    localStorage.setItem("wins", winScore++);
+    console.log(winScore);
+    winScore++;
+    console.log(winScore);
+    localStorage.setItem("wins", winScore);
+    
     displayScore();
 }
 
@@ -151,22 +155,26 @@ displayInstructions();
 
 //add keys to local storage to store wins and losses
 
-localStorage.setItem("wins", 0);
-localStorage.setItem("losses", 0);
-
 //target the win and losses elements and save into variable
 var wins = document.getElementById("wins");
 var losses = document.getElementById("losses");
 var winScore = localStorage.getItem("wins");
 var lossScore = localStorage.getItem("losses");
 
-console.log(winScore);
-
 //function to display score
 function displayScore() {
-    wins.textContent = winScore;
-    losses.textContent = lossScore;
+    console.log(winScore, lossScore);
+    if(winScore == null|| lossScore == null) {
+        localStorage.setItem("wins", 0);
+        localStorage.setItem("losses", 0);
+        wins.textContent = winScore;
+        losses.textContent = lossScore;
+    } else {
+        wins.textContent = winScore;
+        losses.textContent = lossScore;
+    }
+
 }
 
-displayScore()
 
+displayScore();
