@@ -73,6 +73,11 @@ function setTimer() {
 
     if (time === 0) {
             clearInterval(setTimer);
+            if (completedArray.length !== secretWordArray.length) {
+                var losingMessage = document.createElement("p");
+                losingMessage.textContent = `Sorry - time's out!`
+                gameContainer.appendChild(losingMessage);
+            }
         }
     },1000)}
 
@@ -109,3 +114,10 @@ function displayWin() {
     winningMessage.textContent = `You've won! Click start to reset the game.`
     textContainer.appendChild(winningMessage);
 }
+
+var messageContainer = document.getElementById("gameMessage");
+function displayInstructions() {
+    messageContainer.textContent = `Instructions: Press the start button to play. Start typing to guess the word!`
+}
+
+displayInstructions();

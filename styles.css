@@ -67,3 +67,8 @@ header {
 #scores {
     display: flex;
 }
+
+#gameMessage {
+    text-align: center;
+    padding: 5px;
+}
