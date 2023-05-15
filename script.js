@@ -9,90 +9,66 @@ var secretWordArray = secretWord.toLowerCase().split("");
 
 var gameContainer = document.getElementById("gameContainer");
 
+//messageContainer displays messages eg. instructions, winning message and losing message
+var messageContainer = document.getElementById("gameMessage");
+
 //completedArray that saves the length of the completed letters
 var completedArray = [];
+
+
+//store keyed keys in an array
+var keyed = [];
+
+//function to start game
+
+function startGame() {
+    console.log("Start Game")
+
+//remove existing HTML element in game container
+
+gameContainer.innerHTML = "";
+
+//remove elements in keyed arrays
+keyed = [];
 
 //for loop that dynamically adds elements according to length of word
 
 for (let i = 0; i <secretWordArray.length; i++) {
+
     //create new div elements
     var divElement = document.createElement("div");
     //appends div onto game container
     gameContainer.appendChild(divElement);
 }
 
-    //store keyed keys in an array
-    var keyed = [];
 
     //add event listener to game container
     var page = document.querySelector("body");
     page.addEventListener("keydown", function(event) {
+        event.stopImmediatePropagation();
         //store key entered by user
         var key = event.key;
         console.log(key);
-        
         //Index of function used to check if the new key is already in existing keyed array
-       if (keyed.indexOf(key)!== -1) {
-        alert(`you've already tried this key!`);
-       } else {
-        //push new key into keyed array
-        keyed.push(key);
-                //function to check which indexes match the key
-                var matchingIndexes = getMatchingIndexes (secretWordArray, key);
-                //for loop which adds text content to corresponding div
-                for(let i = 0; i < matchingIndexes.length; i++) {
-                    gameContainer.children[matchingIndexes[i]].textContent = key;
-                    gameContainer.children[matchingIndexes[i]].dataset.completed = true;
-                    console.log(gameContainer.children[matchingIndexes[i]]);
-                    }
-       }
-
+        if (keyed.indexOf(key) == -1) {
+            //push new key into keyed array
+            keyed.push(key);
+            //function to check which indexes match the key
+            var matchingIndexes = getMatchingIndexes (secretWordArray, key);
+            //for loop which adds text content to corresponding div
+            for(let i = 0; i < matchingIndexes.length; i++) {
+                gameContainer.children[matchingIndexes[i]].textContent = key;
+                }
+        } else {
+            alert(`you've already tried this key!`);
+            return;
+        }
        if(completedArray.length === secretWordArray.length) {
-        var winningMessage = document.createElement("p");
-        winningMessage.textContent = `You've won!`
-        gameContainer.appendChild(winningMessage);
+        displayWin();
        }
-
         }
-
     )
-
-    var textContainer = document.getElementById("textContainer");
-
-//add timer to the game
-
-//set timer to 30 seconds
-let timer = document.getElementById("timer");
-var time = 30;
-
-function setTimer() {
-    var setTimer = setInterval(function() {
-        time --;
-        timer.textContent = `${time} seconds`;
-        
-
-    if (time === 0) {
-            clearInterval(setTimer);
-            if (completedArray.length !== secretWordArray.length) {
-                var losingMessage = document.createElement("p");
-                losingMessage.textContent = `Sorry - time's out!`
-                gameContainer.appendChild(losingMessage);
-            }
-        }
-    },1000)}
-
-//target button to start the timer and hide button
-var startButton = document.getElementById("startBtn");
-startButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    setTimer();
-    if (startButton.dataset.visibility === "visible") {
-        startButton.style.display = "none";
-        startButton.dataset.visibility = "hidden";
-    }
-})
-
-//function to get all indexes that match a value
+    //function to get all indexes that match a value
 function getMatchingIndexes (arr, val) {
     var indexes = [];
     for(i = 0; i < arr.length; i++) {
@@ -104,6 +80,50 @@ function getMatchingIndexes (arr, val) {
     }
     return indexes;
 }
+}
+
+
+    var textContainer = document.getElementById("textContainer");
+
+//add timer to the game
+
+//set timer to 30 seconds
+let timerDisplay = document.getElementById("timer");
+var time = 30;
+
+let setTimer;
+
+function timer() {
+
+        time --;
+        timerDisplay.textContent = `${time} seconds`;
+
+    if (time === 0) {
+            clearInterval(setTimer);
+            if (completedArray.length !== secretWordArray.length) {
+                messageContainer.textContent = `Sorry - time's up!`
+            }
+        }
+    }
+//target button to start the timer and hide button
+var startButton = document.getElementById("startBtn");
+startButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    setTimer = setInterval(timer, 1000);
+    if (startButton.dataset.visibility === "visible") {
+        startButton.style.display = "none";
+        startButton.dataset.visibility = "hidden";
+    }
+        //remove exisitng completedArray
+completedArray = [];
+keyed = [];
+console.log(completedArray)
+console.log(keyed)
+    startGame();
+
+})
+
+
 
 
 //displayWin function which displays a winning message on the screen and resets start button
@@ -112,10 +132,13 @@ function displayWin() {
     startButton.dataset.visibility = "visible";
     var winningMessage = document.createElement("p");
     winningMessage.textContent = `You've won! Click start to reset the game.`
-    textContainer.appendChild(winningMessage);
+    messageContainer.appendChild(winningMessage);
+    clearInterval(setTimer);
+    completedArray = [];
+    keyed = [];
 }
 
-var messageContainer = document.getElementById("gameMessage");
+
 function displayInstructions() {
     messageContainer.textContent = `Instructions: Press the start button to play. Start typing to guess the word!`
 }

@@ -53,3 +53,9 @@ Refer to the documentation:
 If you have completed this activity, work through the following challenge with your group to further your knowledge:
 
 * How can you add a reset button to set the win and loss counts back to zero? 
+
+## Debug
+
+Bug
+
+1. When comparing the solved array to existing array, if the letter was re-entered the array will still grow in length and potentially trigger you won message.
