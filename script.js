@@ -83,18 +83,17 @@ function getMatchingIndexes (arr, val) {
 }
 
 
-    var textContainer = document.getElementById("textContainer");
+var textContainer = document.getElementById("textContainer");
 
 //add timer to the game
 
 //set timer to 30 seconds
 let timerDisplay = document.getElementById("timer");
-var time = 30;
 
 let setTimer;
+var time = 30;
 
 function timer() {
-
         time --;
         timerDisplay.textContent = `${time} seconds`;
 
@@ -102,6 +101,10 @@ function timer() {
             clearInterval(setTimer);
             if (completedArray.length !== secretWordArray.length) {
                 messageContainer.textContent = `Sorry - time's up!`
+                if (startButton.dataset.visibility === "hidden") {
+                    startButton.style.display = "block";
+                    startButton.dataset.visibility = "visible";
+                }
             }
         }
     }
@@ -115,11 +118,9 @@ startButton.addEventListener("click", function(event) {
         startButton.dataset.visibility = "hidden";
     }
         //remove exisitng completedArray
-completedArray = [];
-keyed = [];
-console.log(completedArray)
-console.log(keyed)
     startGame();
+    displayInstructions();
+    time = 30;
 
 })
 
@@ -130,9 +131,7 @@ console.log(keyed)
 function displayWin() {
     startButton.style.display = "block";
     startButton.dataset.visibility = "visible";
-    var winningMessage = document.createElement("p");
-    winningMessage.textContent = `You've won! Click start to reset the game.`
-    messageContainer.appendChild(winningMessage);
+    messageContainer.textContent = `You've won! Click start to reset the game.`
     clearInterval(setTimer);
     completedArray = [];
     keyed = [];
@@ -144,3 +143,21 @@ function displayInstructions() {
 }
 
 displayInstructions();
+
+//add keys to local storage to store wins and losses
+
+localStorage.setItem("wins", 0);
+localStorage.setItem("losses", 0);
+
+//target the win and losses elements and save into variable
+var wins = document.getElementById("wins");
+var losses = document.getElementById("losses");
+
+//function to display score
+function displayScore() {
+    var winScore = localStorage.getItem("wins");
+    var lossScore = localStorage.getItem("losses");
+    wins.textContent = winScore;
+    losses.textContent = lossScore;
+}
+
