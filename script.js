@@ -105,6 +105,8 @@ function timer() {
                     startButton.style.display = "block";
                     startButton.dataset.visibility = "visible";
                 }
+                localStorage.setItem("losses", lossScore++);
+                displayScore();
             }
         }
     }
@@ -135,6 +137,9 @@ function displayWin() {
     clearInterval(setTimer);
     completedArray = [];
     keyed = [];
+    //add 1 to score in local storage
+    localStorage.setItem("wins", winScore++);
+    displayScore();
 }
 
 
@@ -152,12 +157,16 @@ localStorage.setItem("losses", 0);
 //target the win and losses elements and save into variable
 var wins = document.getElementById("wins");
 var losses = document.getElementById("losses");
+var winScore = localStorage.getItem("wins");
+var lossScore = localStorage.getItem("losses");
+
+console.log(winScore);
 
 //function to display score
 function displayScore() {
-    var winScore = localStorage.getItem("wins");
-    var lossScore = localStorage.getItem("losses");
     wins.textContent = winScore;
     losses.textContent = lossScore;
 }
+
+displayScore()
 
