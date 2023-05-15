@@ -17,14 +17,12 @@ var completedArray = [];
 for (let i = 0; i <secretWordArray.length; i++) {
     //create new div elements
     var divElement = document.createElement("div");
-    //adds dataset and set completed to false
-    divElement.setAttribute("data-completed",false);
     //appends div onto game container
     gameContainer.appendChild(divElement);
 }
 
-        //store keyed keys in an array
-        var keyed = [];
+    //store keyed keys in an array
+    var keyed = [];
 
     //add event listener to game container
     var page = document.querySelector("body");
@@ -47,6 +45,12 @@ for (let i = 0; i <secretWordArray.length; i++) {
                     gameContainer.children[matchingIndexes[i]].dataset.completed = true;
                     console.log(gameContainer.children[matchingIndexes[i]]);
                     }
+       }
+
+       if(completedArray.length === secretWordArray.length) {
+        var winningMessage = document.createElement("p");
+        winningMessage.textContent = `You've won!`
+        gameContainer.appendChild(winningMessage);
        }
 
         }
@@ -89,11 +93,12 @@ function getMatchingIndexes (arr, val) {
     for(i = 0; i < arr.length; i++) {
         if(arr[i] === val) {
             indexes.push(i);
+            completedArray.push(i);
+            console.log(completedArray);
         }
     }
     return indexes;
 }
-
 
 
 //displayWin function which displays a winning message on the screen and resets start button
@@ -103,11 +108,4 @@ function displayWin() {
     var winningMessage = document.createElement("p");
     winningMessage.textContent = `You've won! Click start to reset the game.`
     textContainer.appendChild(winningMessage);
-}
-
-for (let i = 0; i < secretWordArray.length; i++) {
-    if (gameContainer.children[i].getAttribute("data-completed" === true)) {
-        console.log(`this is completed`)
-        displayWin();
-    }
 }
